@@ -1,242 +1,114 @@
-﻿<Window x:Class="AudioPlayer_Net9.Views.MainWindow"
+﻿<mah:MetroWindow x:Class="AudioPlayer_Net9.Views.MainWindow"
+								 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AudioPlayer_Net9"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-	<Window.Resources>
-		<BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
-	</Window.Resources>
-  <Grid>
-	  <Grid.RowDefinitions>
-		  <RowDefinition Height="41*"/>
-		  <RowDefinition Height="28*"/>
-		  <RowDefinition Height="365*"/>
-	  </Grid.RowDefinitions>
-		<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-			<Button Width="32"
-			        Height="32"
-			        Command="{Binding GoBackCommand}"
-			        Background="#222"
-			        BorderThickness="0"
-			        Margin="10 0 0 0"
-			        Cursor="Hand"
-			        HorizontalAlignment="Left"
-			        IsEnabled="{Binding IsBackButtonEnabled, Converter={StaticResource BoolToVisibility}}">
-
-				<Button.Style>
-					<Style TargetType="Button">
-						<Setter Property="Background" Value="#222"/>
-
-						<Style.Triggers>
-							<Trigger Property="IsMouseOver"
-							         Value="True">
-								<Setter Property="Background"
-								        Value="#3A3A3A" />
-							</Trigger>
-						</Style.Triggers>
-					</Style>
-				</Button.Style>
-
-				<Button.Template>
-					<ControlTemplate TargetType="Button">
-						<Border Background="{TemplateBinding Background}"
-						        CornerRadius="20">
-							<ContentPresenter HorizontalAlignment="Center"
-							                  VerticalAlignment="Center"/>
-						</Border>
-					</ControlTemplate>
-				</Button.Template>
-
-				<iconPacks:PackIconMaterial
-					Kind="ChevronDoubleLeft"
-					Width="20"
-					Height="20"
-					Foreground="White"/>
-
-			</Button>
-
-			<Button Content="Folder Picker" HorizontalAlignment="Left" Margin="45,0,0,0" VerticalAlignment="Center" Command="{Binding OpenLibraryCommand}" Grid.Column="1" Height="20" Width="72"/>
-
-		</StackPanel>
-	  <ProgressBar Grid.Column="0" Grid.Row="1" Margin="20,10" IsIndeterminate="True" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibility}}"/>
-		<Grid
-			Grid.Column="0"
-			Grid.Row="2"
-			Visibility="{Binding IsArtistsView, Converter={StaticResource BoolToVisibility}}">
-			<ListBox Grid.Column="0" Grid.Row="0" Name="Artists" ItemsSource="{Binding Library.Artists}" Margin="10" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.CanContentScroll="True" SelectedItem="{Binding SelectedArtist, UpdateSourceTrigger=PropertyChanged}">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-
-							<Image Width="64"
-							       Height="64"
-							       Source="{Binding ImagePath}" />
-
-							<TextBlock Text="{Binding Name}"
-							           Margin="10,0,0,0"
-							           VerticalAlignment="Center" />
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-		</Grid>
-		<Grid
-			Grid.Column="0"
-			Grid.Row="2"
-			Visibility="{Binding IsAlbumsView, Converter={StaticResource BoolToVisibility}}">
-			<ListBox Grid.Column="0" Grid.Row="0" Name="Albums" 
-			         ItemsSource="{Binding SelectedArtist.Albums}" 
-			         Margin="10" 
-			         HorizontalContentAlignment="Stretch"
-			         VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" 
-			         ScrollViewer.CanContentScroll="True" 
-			         SelectedItem="{Binding SelectedAlbum, UpdateSourceTrigger=PropertyChanged}">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<Border Margin="2" Padding="5" CornerRadius="5">
-							<Border.Style>
-								<Style TargetType="Border">
-									<Setter Property="Background" Value="#202020"></Setter>
-									<Style.Triggers>
-										<DataTrigger Binding="{Binding IsSelected}" Value="True">
-											<Setter Property="Background" Value="#0078D7"></Setter>
-										</DataTrigger>
-										<Trigger Property="IsMouseOver" Value="True">
-											<Setter Property="Background" Value="#303030"></Setter>
-										</Trigger>
-									</Style.Triggers>
-								</Style>
-							</Border.Style>
-
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="60"></ColumnDefinition>
-									<ColumnDefinition Width="*"></ColumnDefinition>
-									<ColumnDefinition Width="80"></ColumnDefinition>
-								</Grid.ColumnDefinitions>
-								<!-- ALBUM COVER -->
-								<Border Grid.Column="0" Width="50" Height="50" CornerRadius="4" ClipToBounds="True">
-									<Image Source="{Binding AlbumArt}" Stretch="UniformToFill"></Image>
-								</Border>
-								<!-- SONG INFORMATION -->
-								<StackPanel Grid.Column="1" Margin="10,0,0,0">
-									<TextBlock Text="{Binding Name}" FontSize="14" TextTrimming="CharacterEllipsis" FontWeight="Bold" Foreground="AntiqueWhite"></TextBlock>
-									<TextBlock Text="{Binding Artist}" FontSize="12" Foreground="LightGray"></TextBlock>
-									<TextBlock Text="{Binding Album}" FontSize="11" Foreground="Gray"></TextBlock>
-								</StackPanel>
-								<TextBlock
-								Grid.Column="2"
-								Text="{Binding DurationDisplay}"
-								VerticalAlignment="Center"
-								HorizontalAlignment="Right"
-								FontWeight="SemiBold" Foreground="White">
-								</TextBlock>
-							</Grid>
-
-						</Border>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-
-			</ListBox>
-
-		</Grid>
-		<Grid
-			Grid.Column="0"
-			Grid.Row="2"
-			Visibility="{Binding IsTracksView, Converter={StaticResource BoolToVisibility}}">
-			<ListBox Grid.Column="0" Grid.Row="0" Name="Tracks" ItemsSource="{Binding SelectedAlbum.Tracks}" Margin="10" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.CanContentScroll="True" SelectedItem="{Binding SelectedTrack, UpdateSourceTrigger=PropertyChanged}">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<Grid>
-
+								 ShowCloseButton="True"
+								 ShowTitleBar="False"
+								 ShowMinButton="True"
+								 ShowMaxRestoreButton="True"
+								 Height="600"
+								 Width="1200"
+								 Background="white"
+        mc:Ignorable="d">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition x:Name="SidebarColumn" Width="200"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"></RowDefinition>
+			<RowDefinition Height="100"></RowDefinition>
+		</Grid.RowDefinitions>
+		<Border Grid.Column="0" Grid.Row="0" Background="Black">
+			<StackPanel>
+				<TextBlock Text="Media Player" FontSize="24" Margin="10,20" Foreground="White"></TextBlock>
+				<Button Style="{StaticResource NavigationButtonStyle}" Command="{Binding NavigateCommand}" CommandParameter="{Binding HomeView}">
+					<Grid>
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="*" />
-								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*"></ColumnDefinition>
+								<ColumnDefinition Width="*"></ColumnDefinition>
 							</Grid.ColumnDefinitions>
-
-							<Button x:Name="EditButton"
-                Grid.Column="0"
-                Width="24"
-                Height="24"
-                Margin="5"
-                Opacity="0"
-                Background="Transparent"
-                BorderThickness="0"
-                Command="{Binding DataContext.EditMetadataCommand,
-                                  RelativeSource={RelativeSource AncestorType=ListBox}}"
-                CommandParameter="{Binding}">
-
-								<TextBlock Text="✏"
-                       FontSize="14"/>
-							</Button>
-							<TextBlock Grid.Column="1"
-                   Text="{Binding Title}"
-                   VerticalAlignment="Center" />
-
-
+							<Border Grid.Column="0" Background="Transparent" BorderThickness="1" BorderBrush="White" VerticalAlignment="Center" CornerRadius="15" Padding="5">
+								<iconPacks:PackIconMaterial Kind="Home" Width="10" Height="10" Foreground="White"></iconPacks:PackIconMaterial>
+							</Border>
+						<TextBlock Grid.Column="1" x:Name="HomeText" Text="Home" Margin="5,10" Foreground="White" FontSize="22"></TextBlock>
 						</Grid>
-
-						<DataTemplate.Triggers>
-
-							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                       Path=IsMouseOver}"
-                     Value="True">
-
-								<DataTrigger.EnterActions>
-									<BeginStoryboard>
-										<Storyboard>
-											<DoubleAnimation
-                            Storyboard.TargetName="EditButton"
-                            Storyboard.TargetProperty="Opacity"
-                            To="1"
-                            Duration="0:0:0.2"/>
-										</Storyboard>
-									</BeginStoryboard>
-								</DataTrigger.EnterActions>
-
-								<DataTrigger.ExitActions>
-									<BeginStoryboard>
-										<Storyboard>
-											<DoubleAnimation
-                            Storyboard.TargetName="EditButton"
-                            Storyboard.TargetProperty="Opacity"
-                            To="0"
-                            Duration="0:0:0.2"/>
-										</Storyboard>
-									</BeginStoryboard>
-								</DataTrigger.ExitActions>
-
-							</DataTrigger>
-
-						</DataTemplate.Triggers>
-
-					</DataTemplate>
-					<!--<DataTemplate>
+				</Button>
+				<Button Style="{StaticResource NavigationButtonStyle}" Command="{Binding NavigateCommand}" CommandParameter="{Binding ArtistView}">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"></ColumnDefinition>
-							<ColumnDefinition Width="Auto"></ColumnDefinition>
+							<ColumnDefinition Width="*"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0" Text="{Binding Title}" VerticalAlignment="Center"></TextBlock>
-						<Button Name="EditButton" Grid.Column="1" Width="24" Height="24" Margin="5" Visibility="Collapsed" 
-						        Command="{Binding DataContext.EditMetadataCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
-						        CommandParameter="{Binding}">
-							<TextBlock><iconPacks:PackIconMaterial Kind="Pencil" Width="18" Height="18" /></TextBlock>
-						</Button>
+						<Border Grid.Column="0" Background="Transparent" BorderThickness="1" BorderBrush="White" VerticalAlignment="Center" CornerRadius="15" Padding="5">
+							<iconPacks:PackIconMaterial Kind="AccountMusic" Width="10" Height="10" Foreground="White"></iconPacks:PackIconMaterial>
+						</Border>
+						<TextBlock Grid.Column="1" x:Name="ArtistText" Text="Artists" Margin="5,10" Foreground="White" FontSize="22"></TextBlock>
 					</Grid>
-					<DataTemplate.Triggers>
-						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsMouseOver}" Value="True">
-							<Setter TargetName="EditButton" Property="Visibility" Value="Visible"></Setter>
-						</DataTrigger>
-					</DataTemplate.Triggers>
-				</DataTemplate>-->
-				</ListBox.ItemTemplate>
-			</ListBox>
+				</Button>
+				<Button Style="{StaticResource NavigationButtonStyle}" Command="{Binding NavigateCommand}" CommandParameter="{Binding AlbumView}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"></ColumnDefinition>
+							<ColumnDefinition Width="*"></ColumnDefinition>
+						</Grid.ColumnDefinitions>
+						<Border Grid.Column="0" Background="Transparent" BorderThickness="1" BorderBrush="White" VerticalAlignment="Center" CornerRadius="15" Padding="5">
+							<iconPacks:PackIconMaterial Kind="Album" Width="10" Height="10" Foreground="White"></iconPacks:PackIconMaterial>
+						</Border>
+						<TextBlock Grid.Column="1" x:Name="AlbumText" Text="Albums" Margin="5,10" Foreground="White" FontSize="22"></TextBlock>
+					</Grid>
+				</Button>
+				<Button Style="{StaticResource NavigationButtonStyle}" Command="{Binding NavigateCommand}" CommandParameter="{Binding SettingView}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"></ColumnDefinition>
+							<ColumnDefinition Width="*"></ColumnDefinition>
+						</Grid.ColumnDefinitions>
+						<Border Grid.Column="0" Background="Transparent" BorderThickness="1" BorderBrush="White" VerticalAlignment="Center" CornerRadius="15" Padding="5">
+							<iconPacks:PackIconMaterial Kind="Cog" Width="10" Height="10" Foreground="White"></iconPacks:PackIconMaterial>
+						</Border>
+						<TextBlock Grid.Column="1" x:Name="SettingsText" Text="Settings" Margin="5,10" Foreground="White" FontSize="22"></TextBlock>
+					</Grid>
+				</Button>
+			</StackPanel>
+		</Border>
+		<ContentControl Grid.Column="1" Grid.Row="0" Content="{Binding CurrentView}"></ContentControl>
+	  <!-- Player view -->
+		<!-- 
+			TODO: Add Track Art
+						Add View Model for track player
+		-->
+	  <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Visibility="{Binding HasPlayingTrack, Converter={StaticResource BoolToVisibility}}">
+		  <Grid.ColumnDefinitions>
+				<ColumnDefinition Width="100"></ColumnDefinition>
+			  <ColumnDefinition Width="Auto" />
+			  <ColumnDefinition Width="*" />
+			  <ColumnDefinition Width="Auto" />
+		  </Grid.ColumnDefinitions>
 
-		</Grid>
-  </Grid>
-</Window>
+			<Image Grid.Column="0" Width="100" Height="100" Name="AlbumImage" Source="{Binding AlbumArt}" Margin="2"></Image>
+
+		  <TextBlock Grid.Column="1"
+		             Text="{Binding CurrentTimeDisplay}"
+		             VerticalAlignment="Center"
+		             Margin="0,0,8,0" />
+
+		  <Slider Grid.Column="2"
+		          Minimum="0"
+		          Maximum="{Binding TrackDuration}"
+		          Value="{Binding CurrentPosition}"
+		          VerticalAlignment="Center">
+		  </Slider>
+
+		  <TextBlock Grid.Column="3"
+		             Text="{Binding DurationDisplay}"
+		             VerticalAlignment="Center"
+		             Margin="8,0,0,0" />
+	  </Grid>
+
+
+</Grid>
+</mah:MetroWindow>

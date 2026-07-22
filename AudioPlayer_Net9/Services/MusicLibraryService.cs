@@ -8,11 +8,12 @@ using System.Windows.Media.Imaging;
 namespace AudioPlayer_Net9.Services {
   public class MusicLibraryService : IMusicLibraryService {
     private readonly IMetadataService _metadataService;
+    public MusicLibrary? Library { get; set; }
     public MusicLibraryService(IMetadataService metadataService) {
       _metadataService = metadataService;
     }
-    public async Task<MusicLibrary> LoadLibraryAsync(string rootFolder) {
-      return await Task.Run(() => {
+    public async Task LoadLibraryAsync(string rootFolder) {
+      await Task.Run(() => {
         var audioFiles = Directory.EnumerateFiles(rootFolder, "*.*", SearchOption.AllDirectories).Where(IsAudioFile).ToList();
         var tracks = audioFiles.Select(file => _metadataService.Load(file)).ToList();
         var artists = new ObservableCollection<Artist>(tracks
@@ -40,7 +41,7 @@ namespace AudioPlayer_Net9.Services {
         //      .Select(albumTrack => new Track(){Title = albumTrack.Key,FilePath = albumTrack})
         //  }))
 
-        return new MusicLibrary() {
+        this.Library = new MusicLibrary() {
           //Albums = albums,
           Tracks = tracks,
           Artists = artists,

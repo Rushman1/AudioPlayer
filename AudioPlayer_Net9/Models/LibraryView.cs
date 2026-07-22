@@ -3,5 +3,6 @@
 public enum LibraryView {
   Artists,
   Albums,
-  Tracks
+  Tracks,
+  Wait
 }

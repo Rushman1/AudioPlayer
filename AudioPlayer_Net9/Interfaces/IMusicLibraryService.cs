@@ -3,5 +3,7 @@
 namespace AudioPlayer_Net9.Interfaces;
 
 public interface IMusicLibraryService {
-  Task<MusicLibrary> LoadLibraryAsync(string rootFolder);
+  Task LoadLibraryAsync(string rootFolder);
+
+  MusicLibrary? Library { get; set; }
 }

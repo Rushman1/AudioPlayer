@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Windows.Media.Imaging;
 
 namespace AudioPlayer_Net9.ViewModels {
-  public partial class EditMetadataViewModel : ObservableObject {
+  public partial class EditMetadataViewModel : ViewModelBase {
     private readonly Track _track;
     private readonly IMetadataService _metadataService;
     private readonly IFileDialogService _fileDialogService;
