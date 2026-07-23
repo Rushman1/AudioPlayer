@@ -14,7 +14,13 @@
 	    <TextBlock Grid.Row="0"  Text="Artists List" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32"></TextBlock>
 		<Grid
 			Grid.Row="1">
-			<ListBox Grid.Column="0" Grid.Row="0" Name="Artists" ItemsSource="{Binding Artists}" Margin="10" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.CanContentScroll="True">
+			<ListBox Grid.Column="0" Grid.Row="0" Name="Artists" 
+			         ItemsSource="{Binding Artists}" 
+							 SelectedItem="{Binding SelectedArtist, Mode=TwoWay}"
+			         Margin="10" 
+			         VirtualizingPanel.IsVirtualizing="True" 
+			         VirtualizingPanel.VirtualizationMode="Recycling" 
+			         ScrollViewer.CanContentScroll="True">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">

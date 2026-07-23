@@ -50,6 +50,7 @@ namespace AudioPlayer_Net9
         services.AddSingleton<IFolderPickerService, FolderPickerService>();
         services.AddSingleton<IFileDialogService, FileDialogService>();
         services.AddSingleton<ISettingsService, SettingsService>();
+        services.AddSingleton<INavigationService, NavigationService>();
 
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
@@ -63,6 +64,8 @@ namespace AudioPlayer_Net9
         services.AddSingleton<TrackListView>();
         services.AddSingleton<SettingsViewModel>();
         services.AddSingleton<SettingsView>();
+        services.AddSingleton<ArtistDetailViewModel>();
+        services.AddSingleton<ArtistDetailView>();
 
 
 

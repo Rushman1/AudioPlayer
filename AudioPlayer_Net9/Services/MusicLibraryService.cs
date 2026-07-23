@@ -32,17 +32,29 @@ namespace AudioPlayer_Net9.Services {
           })
           .OrderBy(a => a.Name));
 
-        //var albums = tracks.GroupBy(x => x.Album).OrderBy(g => g.Key).Select(g=>new Album(){Name = g.Key}).ToList();
+        var albums = new ObservableCollection<Album>(tracks.GroupBy(x => x.Album)
+          .Select(albumGroup => {
+            var firstTrack = albumGroup.First();
+            return new Album() {
+              Name = albumGroup.Key,
+              Artist = firstTrack.Artist,
+              AlbumArt = firstTrack.AlbumArt,
+              Year = firstTrack.Year,
+              Tracks = new ObservableCollection<Track>(albumGroup.OrderBy(t => t.TrackNumber))
+            };
+          }));
+
+        //var albums = tracks.GroupBy(x => x.Album).OrderBy(g => g.Key).Select(g => new Album() { Name = g.Key }).ToList();
         //var albums = new ObservableCollection<Album>(
-        //  tracks.GroupBy(x=>x.Album).Select(albumTracks => new Album() {
+        //  tracks.GroupBy(x => x.Album).Select(albumTracks => new Album() {
         //    Name = albumTracks.Key,
         //    Tracks = new ObservableCollection<Track>(albumTracks
-        //      .GroupBy(t=>t.Title)
-        //      .Select(albumTrack => new Track(){Title = albumTrack.Key,FilePath = albumTrack})
+        //      .GroupBy(t => t.Title)
+        //      .Select(albumTrack => new Track() { Title = albumTrack.Key, FilePath = albumTrack })
         //  }))
 
         this.Library = new MusicLibrary() {
-          //Albums = albums,
+          Albums = albums,
           Tracks = tracks,
           Artists = artists,
           RootFolder = rootFolder,

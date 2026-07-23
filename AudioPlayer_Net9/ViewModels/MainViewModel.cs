@@ -1,34 +1,55 @@
-﻿using AudioPlayer_Net9.Interfaces;
+﻿using System.Windows.Input;
+using AudioPlayer_Net9.Interfaces;
 using AudioPlayer_Net9.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AudioPlayer_Net9.ViewModels {
   public partial class MainViewModel : ObservableObject {
-    private readonly ArtistListViewModel _artistListViewModel;
-    private readonly AlbumListViewModel _albumListViewModel;
-    private readonly TrackListViewModel _trackListViewModel;
-    private readonly SettingsViewModel _settingsViewModel;
-    private readonly HomeViewModel _homeViewModel;
+    private readonly INavigationService _navigationService;
     [ObservableProperty] private ViewModelBase? _currentView;
-    public MainViewModel(ArtistListViewModel artistListViewModel, AlbumListViewModel albumListViewModel, TrackListViewModel trackListViewModel, SettingsViewModel settingsViewModel, HomeViewModel homeViewModel) {
-      _artistListViewModel = artistListViewModel;
-      _albumListViewModel = albumListViewModel;
-      _trackListViewModel = trackListViewModel;
-      _settingsViewModel = settingsViewModel;
-      _homeViewModel = homeViewModel;
-      CurrentView = _homeViewModel;
+    public MainViewModel(INavigationService navigationService) {
+      _navigationService = navigationService;
+      _navigationService.ViewChanged += view => {
+        CurrentView = view;
+        GoBackCommand.NotifyCanExecuteChanged();
+      };
+      _navigationService.NavigateTo<HomeViewModel>();
     }
 
-    public HomeViewModel HomeView => _homeViewModel;
-    public ArtistListViewModel ArtistView => _artistListViewModel;
-    public AlbumListViewModel AlbumView => _albumListViewModel;
-    public TrackListViewModel TrackView => _trackListViewModel;
-    public SettingsViewModel SettingView => _settingsViewModel;
+    [RelayCommand]
+    private void ShowHome() {
+      _navigationService.NavigateTo<HomeViewModel>();
+    }
 
     [RelayCommand]
-    private void Navigate(ViewModelBase view) {
-      CurrentView = view;
+    private void ShowArtists() {
+      _navigationService.NavigateTo<ArtistListViewModel>();
+    }
+
+    [RelayCommand]
+    private void ShowAlbums() {
+      _navigationService.NavigateTo<AlbumListViewModel>();
+    }
+
+    [RelayCommand]
+    private void ShowTracks() {
+      _navigationService.NavigateTo<TrackListViewModel>();
+    }
+
+    [RelayCommand]
+    private void ShowSettings() {
+      _navigationService.NavigateTo<SettingsViewModel>();
+    }
+
+    [RelayCommand(CanExecute = nameof(CanGoBack))]
+    private void GoBack() {
+      _navigationService.GoBack();
+    }
+
+    private bool CanGoBack() {
+      return _navigationService.CanGoBack;
     }
   }
 }

@@ -13,6 +13,10 @@
 		  <views:ArtistListView />
 	  </DataTemplate>
 
+	  <DataTemplate DataType="{x:Type vm:ArtistDetailViewModel}">
+		  <views:ArtistDetailView />
+	  </DataTemplate>
+
 	  <DataTemplate DataType="{x:Type vm:HomeViewModel}">
 		  <views:HomeView />
 	  </DataTemplate>

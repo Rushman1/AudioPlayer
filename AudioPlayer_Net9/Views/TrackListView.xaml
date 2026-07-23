@@ -6,7 +6,35 @@
              xmlns:local="clr-namespace:AudioPlayer_Net9.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            <TextBlock Text="Tracks List" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32"></TextBlock>
-    </Grid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+		<TextBlock Grid.Row="0"  Text="Artists List" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32"></TextBlock>
+		<Grid
+			Grid.Row="1">
+			<ListBox Grid.Column="0" Grid.Row="0" Name="Artists" 
+			         ItemsSource="{Binding Tracks}" 
+			         Margin="10" 
+			         VirtualizingPanel.IsVirtualizing="True" 
+			         VirtualizingPanel.VirtualizationMode="Recycling" 
+			         ScrollViewer.CanContentScroll="True">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+
+							<Image Width="64"
+							       Height="64"
+							       Source="{Binding AlbumArt}" />
+
+							<TextBlock Text="{Binding Title}"
+							           Margin="10,0,0,0"
+							           VerticalAlignment="Center" />
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</Grid>
+	</Grid>
 </UserControl>
