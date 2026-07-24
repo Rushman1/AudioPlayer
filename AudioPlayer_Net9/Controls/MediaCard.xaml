@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="AudioPlayer_Net9.Controls.MediaCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AudioPlayer_Net9.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+	<Button
+		Command="{Binding DataContext.SelectAlbumCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+		CommandParameter="{Binding}"
+		Style="{StaticResource ArtistAlbumTrackButtonStyle}">
+		<StackPanel>
+			<Border Width="120"
+			        Height="160"
+			        Padding="5">
+				<StackPanel>
+					<!-- Album Art -->
+					<Border Width="100"
+					        Height="100"
+					        ClipToBounds="True"
+					        CornerRadius="10">
+						<Image Source="{Binding AlbumArt}"
+						       Height="100"
+						       Width="100"
+						       Stretch="UniformToFill" />
+					</Border>
+					<!-- Album Name -->
+					<TextBlock Text="{Binding Name}"
+					           FontWeight="Bold"
+					           Foreground="White"
+					           Margin="5,8,0,0"
+					           TextWrapping="Wrap"
+					           TextAlignment="Left" />
+					<!-- Year -->
+					<TextBlock Text="{Binding Year}"
+					           Foreground="Gray"
+					           Margin="5,0,0,0"
+					           HorizontalAlignment="Left" />
+				</StackPanel>
+			</Border>
+		</StackPanel>
+	</Button>
+</UserControl>

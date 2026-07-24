@@ -11,7 +11,8 @@
                  ShowMaxRestoreButton="True"
                  Height="600"
                  Width="1200"
-                 Background="white"
+                 Background="{StaticResource SecondaryBackgroundBrush}"
+								 Foreground="{StaticResource PrimaryTextBrush}"
                  mc:Ignorable="d">
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -19,10 +20,11 @@
 			<ColumnDefinition Width="*"></ColumnDefinition>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="100"></RowDefinition>
 		</Grid.RowDefinitions>
-		<Border Grid.Column="0" Grid.Row="0" Background="Black">
+		<Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="{StaticResource PrimaryBackgroundBrush}">
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
 					<Button Style="{StaticResource NavigationButtonStyle}"
@@ -113,13 +115,13 @@
 				</Button>
 			</StackPanel>
 		</Border>
-		<ContentControl Grid.Column="1" Grid.Row="0" Content="{Binding CurrentView}"></ContentControl>
+		<ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding CurrentView}"></ContentControl>
 		<!-- Player view -->
 		<!-- 
 			TODO: Add Track Art
 						Add View Model for track player
 		-->
-		<Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+		<Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
 		      Visibility="{Binding HasPlayingTrack, Converter={StaticResource BoolToVisibility}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="100"></ColumnDefinition>

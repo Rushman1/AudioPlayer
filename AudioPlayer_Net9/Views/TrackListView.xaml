@@ -8,33 +8,67 @@
              d:DesignHeight="450" d:DesignWidth="800">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="40"></RowDefinition>
+			<RowDefinition Height="100"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0"  Text="Artists List" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32"></TextBlock>
-		<Grid
-			Grid.Row="1">
-			<ListBox Grid.Column="0" Grid.Row="0" Name="Artists" 
-			         ItemsSource="{Binding Tracks}" 
-			         Margin="10" 
-			         VirtualizingPanel.IsVirtualizing="True" 
-			         VirtualizingPanel.VirtualizationMode="Recycling" 
-			         ScrollViewer.CanContentScroll="True">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
+		<StackPanel Grid.Row="0" Margin="20,0,0,0">
+			<TextBlock FontSize="32" FontWeight="Bold" Foreground="white" Text="Songs"></TextBlock>
+		</StackPanel>
+		<ListBox Grid.Row="1" ItemsSource="{Binding TracksView}"
+		         Background="Gray" 
+						 HorizontalContentAlignment="Stretch"
+		         BorderThickness="0" Margin="15,0"
+		         ScrollViewer.VerticalScrollBarVisibility="Hidden"
+		         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+		         AlternationCount="2">
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+					<Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+					<Setter Property="Background" Value="#202020"></Setter>
+					<Style.Triggers>
+						<Trigger Property="ItemsControl.AlternationIndex" Value="1">
+							<Setter Property="Background" Value="#2a2a2a"></Setter>
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</ListBox.ItemContainerStyle>
+			<ListBox.GroupStyle>
 
-							<Image Width="64"
-							       Height="64"
-							       Source="{Binding AlbumArt}" />
+				<GroupStyle>
+					<GroupStyle.HeaderTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"
+							           FontSize="18"
+							           FontWeight="Bold"
+							           Foreground="White"/>
+						</DataTemplate>
+					</GroupStyle.HeaderTemplate>
+				</GroupStyle>
 
-							<TextBlock Text="{Binding Title}"
-							           Margin="10,0,0,0"
-							           VerticalAlignment="Center" />
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-		</Grid>
+			</ListBox.GroupStyle>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Border x:Name="RowBorder" Padding="10" 
+					        Background="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Background}" 
+					        HorizontalAlignment="Stretch">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="3*" />
+							<ColumnDefinition Width="2*" />
+							<ColumnDefinition Width="2*" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<TextBlock Grid.Column="0" Text="{Binding Title}" />
+						<TextBlock Grid.Column="1" Text="{Binding Album}" />
+						<TextBlock Grid.Column="2" Text="{Binding Artist}" />
+						<TextBlock Grid.Column="3" Text="{Binding Genre}" />
+						<TextBlock Grid.Column="4" Text="{Binding DurationDisplay}" />
+					</Grid>
+					</Border>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
 	</Grid>
 </UserControl>

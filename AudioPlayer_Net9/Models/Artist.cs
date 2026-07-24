@@ -12,5 +12,16 @@ namespace AudioPlayer_Net9.Models {
      * Future: Current and past members
      * Future: Artist image(s)
      */
+    public string GroupLetter {
+      get {
+        if (String.IsNullOrWhiteSpace(Name))
+          return "#";
+
+        char c = char.ToUpper(Name[0]);
+
+        return char.IsLetter(c) ? c.ToString() : "#";
+      }
+    }
+
   }
 }

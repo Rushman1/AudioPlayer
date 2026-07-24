@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using AudioPlayer_Net9.Interfaces;
 using AudioPlayer_Net9.Models;
 
@@ -9,6 +11,10 @@ public class TrackListViewModel : ViewModelBase, INavigationAware {
   private ObservableCollection<Track> _tracks = new ObservableCollection<Track>();
   public TrackListViewModel(IMusicLibraryService musicLibraryService) {
     _musicLibraryService = musicLibraryService;
+    Tracks = new ObservableCollection<Track>(_musicLibraryService.Library.Tracks);
+    TracksView = CollectionViewSource.GetDefaultView(Tracks);
+    TracksView.SortDescriptions.Add(new SortDescription(nameof(Track.Title), ListSortDirection.Ascending));
+    TracksView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Track.GroupLetter)));
   }
   public void OnNavigatedTo(object? parameter) {
     Tracks.Clear();
@@ -27,4 +33,6 @@ public class TrackListViewModel : ViewModelBase, INavigationAware {
     get => _tracks;
     set => SetProperty(ref _tracks, value);
   }
+
+  public ICollectionView TracksView { get; }
 }

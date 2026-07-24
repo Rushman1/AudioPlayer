@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace AudioPlayer_Net9.Models;
 
@@ -56,5 +57,16 @@ public class Track : ObservableObject {
   public BitmapImage? AlbumArt {
     get => _albumArt;
     set => SetProperty(ref _albumArt, value);
+  }
+
+  public string GroupLetter {
+    get {
+      if (String.IsNullOrWhiteSpace(Title))
+        return "#";
+
+      char c = char.ToUpper(Title[0]);
+
+      return char.IsLetter(c) ? c.ToString() : "#";
+    }
   }
 }

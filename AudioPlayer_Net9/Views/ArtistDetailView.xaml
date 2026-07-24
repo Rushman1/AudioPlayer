@@ -5,77 +5,87 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:AudioPlayer_Net9.Views"
              mc:Ignorable="d"
+             Background="Transparent"
              d:DesignHeight="450" d:DesignWidth="800">
-	<ScrollViewer VerticalScrollBarVisibility="Auto">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="150"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
 
-		<StackPanel>
+		<!-- Header Info -->
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="130"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<!-- Header Image -->
+			<Ellipse Width="100"
+			         Height="100"
+			         Grid.Column="0"
+							 Margin="15,0,0,0"
+			         HorizontalAlignment="Left"
+			         VerticalAlignment="Center">
+				<Ellipse.Fill>
+					<ImageBrush ImageSource="{Binding Artist.ImagePath}" Stretch="UniformToFill" />
+				</Ellipse.Fill>
+			</Ellipse>
+			<StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+				<TextBlock Name="ArtistName" Text="{Binding Artist.Name}" FontWeight="Bold" FontSize="24" Foreground="White"></TextBlock>
+				<TextBlock Name="ArtistInfo" Text="{Binding ArtistInfo}" FontSize="18" Foreground="White"></TextBlock>
+			</StackPanel>
+		</Grid>
 
-			<!-- Artist Image -->
-
-			<Image Source="{Binding Artist.ImagePath}"
-               Height="300"
-               Stretch="UniformToFill"/>
-
-			<!-- Artist Name -->
-
-			<TextBlock Text="{Binding Artist.Name}"
-                   FontSize="28"
-                   FontWeight="Bold"
-                   Margin="10"/>
-
-			<!-- Albums -->
-
+		<!-- Album List -->
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Margin="15,0,0,0">
 			<ItemsControl ItemsSource="{Binding Albums}">
 
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
-						<WrapPanel Orientation="Horizontal"/>
+						<WrapPanel Orientation="Horizontal" />
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-
-						<Border Width="180"
-                            Margin="10"
-                            Padding="5">
-
+						<Button
+							Command="{Binding DataContext.SelectAlbumCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+							CommandParameter="{Binding}"
+							Style="{StaticResource ArtistAlbumTrackButtonStyle}">
 							<StackPanel>
-
-								<!-- Album Art -->
-
-								<Border Width="160"
-                                    Height="160"
-                                    CornerRadius="5">
-
-									<Image Source="{Binding AlbumArt}"
-                                       Stretch="UniformToFill"/>
+								<Border Width="120"
+								        Height="160"
+								        Padding="5">
+									<StackPanel>
+										<!-- Album Art -->
+										<Border Width="100"
+										        Height="100"
+										        ClipToBounds="True"
+										        CornerRadius="10">
+											<Image Source="{Binding AlbumArt}"
+														 Height="100"
+														 Width="100"
+											       Stretch="UniformToFill" />
+										</Border>
+										<!-- Album Name -->
+										<TextBlock Text="{Binding Name}"
+										           FontWeight="Bold"
+										           Foreground="White"
+										           Margin="5,8,0,0"
+										           TextWrapping="Wrap"
+										           TextAlignment="Left" />
+										<!-- Year -->
+										<TextBlock Text="{Binding Year}"
+										           Foreground="Gray"
+															 Margin="5,0,0,0"
+										           HorizontalAlignment="Left" />
+									</StackPanel>
 								</Border>
-
-								<!-- Album Name -->
-
-								<TextBlock Text="{Binding Name}"
-                                       FontWeight="Bold"
-                                       Margin="0,8,0,0"
-                                       TextWrapping="Wrap"
-                                       TextAlignment="Center"/>
-
-								<!-- Year -->
-
-								<TextBlock Text="{Binding Year}"
-                                       Foreground="Gray"
-                                       HorizontalAlignment="Center"/>
-
 							</StackPanel>
-
-						</Border>
-
+						</Button>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
-
 			</ItemsControl>
-
-		</StackPanel>
-
-	</ScrollViewer>
+		</ScrollViewer>
+	</Grid>
 </UserControl>
