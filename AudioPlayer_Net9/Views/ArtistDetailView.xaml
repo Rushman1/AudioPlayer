@@ -9,35 +9,40 @@
              d:DesignHeight="450" d:DesignWidth="800">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="150"></RowDefinition>
+			<RowDefinition Height="250"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
 
 		<!-- Header Info -->
-		<Grid Grid.Row="0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="130"></ColumnDefinition>
-				<ColumnDefinition Width="*"></ColumnDefinition>
-			</Grid.ColumnDefinitions>
-			<!-- Header Image -->
-			<Ellipse Width="100"
-			         Height="100"
-			         Grid.Column="0"
-							 Margin="15,0,0,0"
-			         HorizontalAlignment="Left"
-			         VerticalAlignment="Center">
-				<Ellipse.Fill>
-					<ImageBrush ImageSource="{Binding Artist.ImagePath}" Stretch="UniformToFill" />
-				</Ellipse.Fill>
-			</Ellipse>
-			<StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-				<TextBlock Name="ArtistName" Text="{Binding Artist.Name}" FontWeight="Bold" FontSize="24" Foreground="White"></TextBlock>
-				<TextBlock Name="ArtistInfo" Text="{Binding ArtistInfo}" FontSize="18" Foreground="White"></TextBlock>
-			</StackPanel>
-		</Grid>
+		<Border Grid.Column="0" Style="{StaticResource CardBorderStyle}">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="210"></ColumnDefinition>
+					<ColumnDefinition Width="*"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
+
+				<!-- Header Image -->
+				<Ellipse Width="195"
+				         Height="195"
+				         Grid.Column="0"
+				         Margin="5"
+				         HorizontalAlignment="Center"
+				         VerticalAlignment="Center">
+					<Ellipse.Fill>
+						<ImageBrush ImageSource="{Binding Artist.ImagePath}" Stretch="UniformToFill" />
+					</Ellipse.Fill>
+				</Ellipse>
+				<!-- Header Artist Information -->
+				<StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" Margin="10,0, 0,0">
+					<TextBlock Name="ArtistName" Text="{Binding Artist.Name}" FontWeight="Bold" FontSize="32" Foreground="White" Margin="0, 10"></TextBlock>
+					<TextBlock Name="ArtistInfo" Text="{Binding ArtistInfo}" FontSize="18" Foreground="White"></TextBlock>
+				</StackPanel>
+			</Grid>
+		</Border>
 
 		<!-- Album List -->
-		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Margin="15,0,0,0">
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden"
+		              Margin="15,0,0,0">
 			<ItemsControl ItemsSource="{Binding Albums}">
 
 				<ItemsControl.ItemsPanel>
@@ -53,31 +58,32 @@
 							CommandParameter="{Binding}"
 							Style="{StaticResource ArtistAlbumTrackButtonStyle}">
 							<StackPanel>
-								<Border Width="120"
-								        Height="160"
+								<Border Width="210"
+								        Height="240"
 								        Padding="5">
 									<StackPanel>
 										<!-- Album Art -->
-										<Border Width="100"
-										        Height="100"
+										<Border Width="180"
+										        Height="180"
 										        ClipToBounds="True"
 										        CornerRadius="10">
-											<Image Source="{Binding AlbumArt}"
-														 Height="100"
-														 Width="100"
-											       Stretch="UniformToFill" />
+											<Border.Background>
+												<ImageBrush ImageSource="{Binding AlbumArt}" Stretch="UniformToFill"></ImageBrush>
+											</Border.Background>
 										</Border>
 										<!-- Album Name -->
 										<TextBlock Text="{Binding Name}"
 										           FontWeight="Bold"
 										           Foreground="White"
-										           Margin="5,8,0,0"
+										           Margin="10,8,0,0"
 										           TextWrapping="Wrap"
+															 FontSize="15"
 										           TextAlignment="Left" />
 										<!-- Year -->
 										<TextBlock Text="{Binding Year}"
 										           Foreground="Gray"
-															 Margin="5,0,0,0"
+										           Margin="10,0,0,0"
+															 FontSize="12"
 										           HorizontalAlignment="Left" />
 									</StackPanel>
 								</Border>

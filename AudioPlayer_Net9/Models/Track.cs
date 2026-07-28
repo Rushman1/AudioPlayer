@@ -49,6 +49,8 @@ public class Track : ObservableObject {
       if (SetProperty(ref _duration, value)) OnPropertyChanged(nameof(DurationDisplay));
     }
   }
+  public bool IsAlternateRow { get; set; }
+
   public string DurationDisplay => Duration.Hours > 0 ? Duration.ToString(@"hh\:mm\:ss") : Duration.ToString(@"mm\:ss");
   public string AlbumArtPath {
     get => _albumArtPath;

@@ -15,7 +15,7 @@ namespace AudioPlayer_Net9.Services {
     public async Task LoadLibraryAsync(string rootFolder) {
       await Task.Run(() => {
         var audioFiles = Directory.EnumerateFiles(rootFolder, "*.*", SearchOption.AllDirectories).Where(IsAudioFile).ToList();
-        var tracks = audioFiles.Select(file => _metadataService.Load(file)).ToList();
+        var tracks = audioFiles.Select(file => _metadataService.Load(file)).OrderBy(x=>x.Title).ToList();
         var artists = new ObservableCollection<Artist>(tracks
           .GroupBy(x => x.Artist)
           .Select(artistGroup => new Artist() {

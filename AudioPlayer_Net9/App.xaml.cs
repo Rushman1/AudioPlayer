@@ -51,6 +51,7 @@ namespace AudioPlayer_Net9
         services.AddSingleton<IFileDialogService, FileDialogService>();
         services.AddSingleton<ISettingsService, SettingsService>();
         services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<IEditMetadataWindowService, MetadataWindowService>();
 
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<MainWindow>();
@@ -66,7 +67,8 @@ namespace AudioPlayer_Net9
         services.AddSingleton<SettingsView>();
         services.AddSingleton<ArtistDetailViewModel>();
         services.AddSingleton<ArtistDetailView>();
-
+        services.AddSingleton<AlbumDetailViewModel>();
+        services.AddSingleton<AlbumDetailView>();
 
 
         services.AddTransient<EditMetadataWindow>();

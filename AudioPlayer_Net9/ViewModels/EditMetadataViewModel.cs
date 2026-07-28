@@ -1,12 +1,13 @@
 ﻿using AudioPlayer_Net9.Interfaces;
 using AudioPlayer_Net9.Models;
+using AudioPlayer_Net9.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Media.Imaging;
 
 namespace AudioPlayer_Net9.ViewModels {
   public partial class EditMetadataViewModel : ViewModelBase {
-    private readonly Track _track;
+    [ObservableProperty] private Track selectedTrack;
     private readonly IMetadataService _metadataService;
     private readonly IFileDialogService _fileDialogService;
     [ObservableProperty] private string title = string.Empty;
@@ -27,13 +28,14 @@ namespace AudioPlayer_Net9.ViewModels {
       }
     }
     public string? AlbumArtPath { get; set; } = String.Empty;
-
-
-
-    public EditMetadataViewModel(Track track, IMetadataService metadataService, IFileDialogService fileDialogService) {
-      _track = track;
+    
+    public EditMetadataViewModel(IMetadataService metadataService, IFileDialogService fileDialogService) {
       _metadataService = metadataService;
       _fileDialogService = fileDialogService;
+    }
+
+    public void Load(Track track) {
+      SelectedTrack = track;
       Title = track.Title;
       Artist = track.Artist;
       Album = track.Album;
@@ -55,14 +57,15 @@ namespace AudioPlayer_Net9.ViewModels {
 
     [RelayCommand]
     private void Save() {
-      _track.Title = Title;
-      _track.TrackNumber = TrackNumber;
-      _track.Artist = Artist;
-      _track.Album = Album;
-      _track.Genre = Genre;
-      _track.AlbumArt = AlbumArt;
-      _track.AlbumArtPath = AlbumArtPath??String.Empty;
-      _metadataService.Save(_track);
+      SelectedTrack.Title = Title;
+      SelectedTrack.Artist = Artist;
+      SelectedTrack.Album = Album;
+      SelectedTrack.Genre = Genre;
+      SelectedTrack.Year = Year;
+      SelectedTrack.TrackNumber = TrackNumber;
+      SelectedTrack.AlbumArt = AlbumArt;
+      SelectedTrack.AlbumArtPath = AlbumArtPath??String.Empty;
+      _metadataService.Save(SelectedTrack);
       RequestClose?.Invoke(true);
     }
 

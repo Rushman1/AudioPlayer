@@ -3,36 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:AudioPlayer_Net9.ViewModels"
              xmlns:views="clr-namespace:AudioPlayer_Net9.Views">
-  <Application.Resources>
+	<Application.Resources>
 		<ResourceDictionary x:Key="StyleDictionaries">
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Styles/ButtonSyles.xaml"/>
-				<ResourceDictionary Source="Themes/Colors.xaml"/>
+				<ResourceDictionary Source="Styles/ButtonSyles.xaml" />
+				<ResourceDictionary Source="Themes/Colors.xaml" />
+				<ResourceDictionary Source="Styles/CardHeaderStyle.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
-	  <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
-	  <DataTemplate DataType="{x:Type vm:ArtistListViewModel}">
-		  <views:ArtistListView />
-	  </DataTemplate>
+			<BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+			<DataTemplate DataType="{x:Type vm:ArtistListViewModel}">
+				<views:ArtistListView />
+			</DataTemplate>
 
-	  <DataTemplate DataType="{x:Type vm:ArtistDetailViewModel}">
-		  <views:ArtistDetailView />
-	  </DataTemplate>
+			<DataTemplate DataType="{x:Type vm:ArtistDetailViewModel}">
+				<views:ArtistDetailView />
+			</DataTemplate>
 
-	  <DataTemplate DataType="{x:Type vm:HomeViewModel}">
-		  <views:HomeView />
-	  </DataTemplate>
+			<DataTemplate DataType="{x:Type vm:AlbumDetailViewModel}">
+				<views:AlbumDetailView />
+			</DataTemplate>
 
-	  <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
-		  <views:SettingsView />
-	  </DataTemplate>
+			<DataTemplate DataType="{x:Type vm:HomeViewModel}">
+				<views:HomeView />
+			</DataTemplate>
 
-	  <DataTemplate DataType="{x:Type vm:AlbumListViewModel}">
-		  <views:AlbumListView />
-	  </DataTemplate>
+			<DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+				<views:SettingsView />
+			</DataTemplate>
 
-	  <DataTemplate DataType="{x:Type vm:TrackListViewModel}">
-		  <views:TrackListView />
-	  </DataTemplate>
+			<DataTemplate DataType="{x:Type vm:AlbumListViewModel}">
+				<views:AlbumListView />
+			</DataTemplate>
+
+			<DataTemplate DataType="{x:Type vm:TrackListViewModel}">
+				<views:TrackListView />
+			</DataTemplate>
 		</ResourceDictionary>
 
 	</Application.Resources>

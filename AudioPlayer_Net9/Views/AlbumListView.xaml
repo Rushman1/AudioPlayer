@@ -1,41 +1,110 @@
 ﻿<UserControl x:Class="AudioPlayer_Net9.Views.AlbumListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:AudioPlayer_Net9.Views"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="40"></RowDefinition>
+			<RowDefinition Height="100"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
-		<TextBlock Grid.Row="0"  Text="Album List" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32"></TextBlock>
-		<Grid
-			Grid.Row="1">
-			<ListBox Grid.Column="0" Grid.Row="0" Name="Artists" 
-			         ItemsSource="{Binding Albums}"
-							 SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}"
-			         Margin="10" 
-			         VirtualizingPanel.IsVirtualizing="True" 
-			         VirtualizingPanel.VirtualizationMode="Recycling" 
-			         ScrollViewer.CanContentScroll="True">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
+		<StackPanel Grid.Row="0" Margin="20,0,0,0">
+			<TextBlock FontSize="32" FontWeight="Bold" Foreground="white" Text="Albums"></TextBlock>
+		</StackPanel>
+		<ListBox
+			x:Name="Albums"
+			Grid.Row="1"
+			ItemsSource="{Binding AlbumsView}"
+			Background="Transparent"
+			BorderThickness="0" Margin="15,0,0,0"
+			ScrollViewer.VerticalScrollBarVisibility="Hidden"
+			ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+			<ListBox.GroupStyle>
+				<GroupStyle>
+					<GroupStyle.HeaderTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"
+							           FontSize="18"
+							           FontWeight="Bold"
+							           Foreground="white"
+							           Margin="8,5"/>
+						</DataTemplate>
+					</GroupStyle.HeaderTemplate>
+					<GroupStyle.Panel>
+						<ItemsPanelTemplate>
+							<WrapPanel Orientation="Vertical"></WrapPanel>
+						</ItemsPanelTemplate>
+					</GroupStyle.Panel>
+				</GroupStyle>
+			</ListBox.GroupStyle>
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+					<Setter Property="Background" Value="Transparent" />
+					<Setter Property="BorderThickness" Value="0" />
+					<Setter Property="Padding" Value="0"></Setter>
+					<Setter Property="Margin" Value="0"></Setter>
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="ListBoxItem">
+								<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"></ContentPresenter>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
 
-							<Image Width="64"
-							       Height="64"
-							       Source="{Binding AlbumArt}" />
+					<Style.Triggers>
+						<Trigger Property="IsSelected" Value="True">
+							<Setter Property="Background" Value="Transparent" />
+							<Setter Property="BorderBrush" Value="Transparent" />
+						</Trigger>
 
-							<TextBlock Text="{Binding Title}"
-							           Margin="10,0,0,0"
-							           VerticalAlignment="Center" />
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter Property="Background" Value="Transparent" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</ListBox.ItemContainerStyle>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Button
+							Command="{Binding DataContext.SelectAlbumCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+							CommandParameter="{Binding}"
+							Style="{StaticResource ArtistAlbumTrackButtonStyle}">
+						<StackPanel>
+							<Border Width="120"
+							        Height="160"
+							        Padding="5">
+								<StackPanel>
+									<!-- Album Art -->
+									<Border Width="100"
+									         Height="100"
+									         HorizontalAlignment="Center"
+									         VerticalAlignment="Center">
+											<Image Source="{Binding AlbumArt}" Stretch="UniformToFill"/>
+									</Border>
+									<!-- Album Name -->
+									<TextBlock Text="{Binding Name}"
+									           FontWeight="Bold"
+									           Foreground="White"
+														 FontSize="16"
+									           Margin="5,4,0,0"
+									           TextWrapping="Wrap"
+									           TextAlignment="Left" />
+									<!-- ArtistName -->
+									<TextBlock Text="{Binding Artist}"
+									           FontWeight="Bold"
+									           Foreground="#77ffffff"
+									           Margin="5,0,0,0"
+									           TextWrapping="Wrap"
+									           TextAlignment="Left" />
+								</StackPanel>
+							</Border>
 						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-		</Grid>
+					</Button>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
 	</Grid>
 </UserControl>

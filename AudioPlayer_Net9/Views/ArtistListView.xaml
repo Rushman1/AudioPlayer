@@ -14,9 +14,11 @@
 		<StackPanel Grid.Row="0" Margin="20,0,0,0">
 			<TextBlock FontSize="32" FontWeight="Bold" Foreground="white" Text="Artists"></TextBlock>
 		</StackPanel>
+
 		<ListBox Grid.Row="1" 
 		         ItemsSource="{Binding ArtistsView}" 
 		         Background="Transparent" 
+						 Focusable="False"
 		         BorderThickness="0" Margin="15,0,0,0"
 		         ScrollViewer.VerticalScrollBarVisibility="Hidden"
 		         ScrollViewer.HorizontalScrollBarVisibility="Hidden">
@@ -28,18 +30,44 @@
 							<TextBlock Text="{Binding Name}"
 							           FontSize="18"
 							           FontWeight="Bold"
-							           Foreground="White"/>
+							           Foreground="White"
+							           Margin="8,5"/>
 						</DataTemplate>
 					</GroupStyle.HeaderTemplate>
 					<GroupStyle.Panel>
 						<ItemsPanelTemplate>
-							<WrapPanel Orientation="Vertical"></WrapPanel>
+							<WrapPanel Orientation="Vertical" Focusable="False"></WrapPanel>
 						</ItemsPanelTemplate>
 					</GroupStyle.Panel>
 				</GroupStyle>
 
 			</ListBox.GroupStyle>
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+					<Setter Property="Background" Value="Transparent" />
+					<Setter Property="BorderThickness" Value="0" />
+					<Setter Property="Padding" Value="0"></Setter>
+					<Setter Property="Margin" Value="0"></Setter>
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="ListBoxItem">
+								<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"></ContentPresenter>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
 
+					<Style.Triggers>
+						<Trigger Property="IsSelected" Value="True">
+							<Setter Property="Background" Value="Transparent" />
+							<Setter Property="BorderBrush" Value="Transparent" />
+						</Trigger>
+
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter Property="Background" Value="Transparent" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</ListBox.ItemContainerStyle>
 			<ListBox.ItemTemplate>
 
 				<DataTemplate>
